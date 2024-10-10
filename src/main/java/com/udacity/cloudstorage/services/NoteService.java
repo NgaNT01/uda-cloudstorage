@@ -2,17 +2,15 @@ package com.udacity.cloudstorage.services;
 
 import java.util.List;
 import com.udacity.cloudstorage.domain.Note;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.udacity.cloudstorage.mapper.NoteMapper;
 
 @Service
 public class NoteService {
 
-    private final NoteMapper notes;
-
-    public NoteService(NoteMapper mapper) {
-        this.notes = mapper;
-    }
+    @Autowired
+    private NoteMapper notes;
 
     public List<Note> allBy(String UID) {
         return notes.allFrom(UID);

@@ -1,6 +1,7 @@
 package com.udacity.cloudstorage.services;
 
 import com.udacity.cloudstorage.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.udacity.cloudstorage.mapper.UserMapper;
 
@@ -10,13 +11,11 @@ import java.security.SecureRandom;
 @Service
 public class UserService {
 
-    private final UserMapper userMapper;
-    private final HashService hashService;
+    @Autowired
+    private UserMapper userMapper;
 
-    public UserService(UserMapper userMapper, HashService hashService) {
-        this.userMapper = userMapper;
-        this.hashService = hashService;
-    }
+    @Autowired
+    private HashService hashService;
 
     public boolean isUsernameAvailable(String username) {
         return userMapper.getUser(username) == null;

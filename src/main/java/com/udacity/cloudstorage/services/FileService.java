@@ -2,17 +2,15 @@ package com.udacity.cloudstorage.services;
 
 import java.util.List;
 import com.udacity.cloudstorage.domain.File;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.udacity.cloudstorage.mapper.FileMapper;
 
 @Service
 public class FileService {
 
-    private final FileMapper files;
-
-    public FileService(FileMapper mapper) {
-        files = mapper;
-    }
+    @Autowired
+    private FileMapper files;
 
     public File get(File file) {
         return files.get(file);
