@@ -1,5 +1,6 @@
 package com.udacity.cloudstorage.controller;
 
+import com.udacity.cloudstorage.domain.Constant;
 import com.udacity.cloudstorage.domain.User;
 import com.udacity.cloudstorage.services.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class AuthenticationController {
         if (errorMessage == null) {
             int result = userManagementService.registerUser(user);
             if (result < 0) {
-                errorMessage = "An error occurred during signup. Please try again.";
+                errorMessage = Constant.ERROR_SIGNUP;
             }
         }
 

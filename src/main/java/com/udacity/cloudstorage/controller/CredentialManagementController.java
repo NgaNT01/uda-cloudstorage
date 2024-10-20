@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.udacity.cloudstorage.domain.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.http.MediaType;
@@ -31,13 +32,13 @@ public class CredentialManagementController {
         List<String> errorMessages = new ArrayList<>();
 
         if (inputData.get("url").isEmpty())
-            errorMessages.add("The URL field cannot be empty.");
+            errorMessages.add(Constant.URL_CANNOT_EMPTY);
 
         if (inputData.get("username").isEmpty())
-            errorMessages.add("The username field cannot be empty.");
+            errorMessages.add(Constant.USERNAME_CANNOT_EMPTY);
 
         if (inputData.get("password").isEmpty())
-            errorMessages.add("The password field cannot be empty.");
+            errorMessages.add(Constant.PASSWORD_CANNOT_EMPTY);
 
         return errorMessages;
     }
@@ -124,7 +125,7 @@ public class CredentialManagementController {
             Integer userId = userManagementService.retrieveUser(auth.getName()).getUserId();
             credentialManagementService.deleteCredential(new Credential(credentialId, userId));
         } catch (Exception e) {
-            errorMessages.add("Unable to remove the credential due to a server error.");
+            errorMessages.add(Constant.UNABLE_TO_DELETE_CREDENTIAL);
             model.addAttribute("errors", errorMessages);
             model.addAttribute("success", false);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

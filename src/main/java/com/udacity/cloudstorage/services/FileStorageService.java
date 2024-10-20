@@ -25,7 +25,7 @@ public class FileStorageService {
     }
 
     public boolean isFileExists(File file) {
-        return fileMapper.getFile(file) != null;
+        return fileMapper.findByName(file) != null;
     }
 
     public void saveFile(File file) {

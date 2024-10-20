@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.udacity.cloudstorage.domain.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.http.MediaType;
@@ -29,10 +30,10 @@ public class NoteManagementController {
         List<String> errorMessages = new ArrayList<>();
 
         if (noteData.get("noteTitle").isEmpty())
-            errorMessages.add("Note title cannot be empty.");
+            errorMessages.add(Constant.TITLE_CANNOT_EMPTY);
 
         if (noteData.get("noteDescription").isEmpty())
-            errorMessages.add("Note description cannot be empty.");
+            errorMessages.add(Constant.DESCRIPTION_CANNOT_EMPTY);
 
         return errorMessages;
     }
@@ -106,7 +107,7 @@ public class NoteManagementController {
             var userId = userManagementService.retrieveUser(auth.getName()).getUserId();
             noteManagementService.deleteNote(new Note(noteId, userId));
         } catch (Exception e) {
-            errorMessages.add("Unable to delete the note due to a server error.");
+            errorMessages.add(Constant.UNABLE_TO_DELETE_NOTE);
             model.addAttribute("errors", errorMessages);
             model.addAttribute("success", false);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

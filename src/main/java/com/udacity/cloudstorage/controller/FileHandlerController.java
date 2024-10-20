@@ -3,6 +3,7 @@ package com.udacity.cloudstorage.controller;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.udacity.cloudstorage.domain.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.http.MediaType;
@@ -37,7 +38,7 @@ public class FileHandlerController {
         List<String> errorMessages = new ArrayList<>();
 
         if (uploadedFile.isEmpty()) {
-            errorMessages.add("The file cannot be empty.");
+            errorMessages.add(Constant.FILE_CANNOT_EMPTY);
         }
 
         model.addAttribute("success", true);
@@ -52,7 +53,7 @@ public class FileHandlerController {
             );
 
             if (fileStorageService.isFileExists(newFile)) {
-                errorMessages.add("This file has already been uploaded.");
+                errorMessages.add(Constant.FILE_ALREADY_UPLOADED);
                 model.addAttribute("errors", errorMessages);
                 model.addAttribute("success", false);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -62,7 +63,7 @@ public class FileHandlerController {
             fileStorageService.saveFile(newFile);
 
         } catch (Exception e) {
-            errorMessages.add("An error occurred while processing the file.");
+            errorMessages.add(Constant.FILE_PROCESSING_ERROR);
             model.addAttribute("success", false);
             model.addAttribute("errors", errorMessages);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -110,7 +111,7 @@ public class FileHandlerController {
         try {
             fileStorageService.deleteFile(new File(fileId, userId));
         } catch (Exception e) {
-            errorMessages.add("Unable to delete the file due to a server issue.");
+            errorMessages.add(Constant.UNABLE_TO_DELETE_FILE);
             model.addAttribute("errors", errorMessages);
             model.addAttribute("success", false);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
