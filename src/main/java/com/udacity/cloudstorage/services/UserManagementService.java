@@ -5,48 +5,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.udacity.cloudstorage.mapper.UserMapper;
 
-import java.util.Base64;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 @Service
-public class UserService {
+public class UserManagementService {
 
     @Autowired
     private UserMapper userMapper;
 
     @Autowired
-    private HashService hashService;
+    private HashService hashingService;
 
     public boolean isUsernameAvailable(String username) {
         return userMapper.getUser(username) == null;
     }
 
-    public int createUser(User user) {
-        String encodedSalt = createSalt();
-        String hashedPassword = hashService.getHashedValue(user.getPassword(), encodedSalt);
+    public int registerUser(User user) {
+        String salt = generateSalt();
+        String hashedPassword = hashingService.getHashedValue(user.getPassword(), salt);
 
-        return userMapper.insert(
-            new User(
+        User newUser = new User(
                 null,
                 user.getUsername(),
-                encodedSalt,
+                salt,
                 hashedPassword,
                 user.getFirstName(),
                 user.getLastName()
-            )
         );
+
+        return userMapper.insert(newUser);
     }
 
-    public User getUser(String username) {
+    public User retrieveUser(String username) {
         return userMapper.getUser(username);
     }
 
-    private String createSalt() {
-        SecureRandom random = new SecureRandom();
+    private String generateSalt() {
+        SecureRandom secureRandom = new SecureRandom();
         byte[] salt = new byte[16];
-        random.nextBytes(salt);
-
+        secureRandom.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
     }
-
 }

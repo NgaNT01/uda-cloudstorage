@@ -1,9 +1,6 @@
 const Files = function(fragment) {
-
     let endpoint = baseurl(fragment);
-
     function add (data) {
-
         $.ajax({
             url: endpoint,
             type: 'post',
@@ -16,22 +13,17 @@ const Files = function(fragment) {
             headers: {
                 'X-CSRF-TOKEN': data._csrf,
             }
-
         }).done(function (response) {
             $('#alertModal').trigger("response:show", response);
             $('.alert-close').click(function () {
                  $('body').trigger("page:reload");
             });
-
         }).fail(function (xhr) {
             $('#alertModal').trigger("response:show", xhr.responseText);
-
         });
-
     }
 
     function remove (data) {
-
         $.ajax({
             url: `${endpoint}/${data.fileId}`,
             type: 'delete',
@@ -40,18 +32,14 @@ const Files = function(fragment) {
             },
             timeout: 10000,
             crossDomain: true
-
         }).done(function (response) {
             $('#alertModal').trigger("response:show", response);
             $('.alert-close').click(function () {
                 $('body').trigger("page:reload");
             });
-
         }).fail(function (xhr) {
             $('#alertModal').trigger("response:show", xhr.responseText);
-
         });
-
     }
 
     return {
@@ -62,7 +50,6 @@ const Files = function(fragment) {
         remove : function(data) {
             remove(data)
         },
-
     }
 
 }

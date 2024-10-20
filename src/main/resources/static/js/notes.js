@@ -76,7 +76,6 @@ function deleteNote(noteId) {
     const fragment = $('#notes-form').attr('action');
     notes.targetResource(fragment);
     notes.remove(data);
-
 }
 
 $('#noteModal')
@@ -103,5 +102,6 @@ $('#save-note').click(function () {
     );
 
     object._csrf = $('input[name ="_csrf"]').val();
+    object.resourceId = object.noteId;
     $('#noteModal').trigger("notes:add", [object, form.attr('action')]);
 });

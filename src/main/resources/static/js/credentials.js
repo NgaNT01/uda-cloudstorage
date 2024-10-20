@@ -1,6 +1,7 @@
 const credentials = $.extend(Repository, {
 
     add : function (credential) {
+        console.log("credential", credential);
         if (credential.hasOwnProperty("resourceId") && $.trim(credential.resourceId) !== "") {
             this.edit(credential,
                 function (response) {
@@ -9,7 +10,6 @@ const credentials = $.extend(Repository, {
                     $('.alert-close').click(function () {
                         $('body').trigger("page:reload");
                     });
-
                 },
                 function (response) {
                     $('#credentialModal').trigger("modal:close");
@@ -89,6 +89,7 @@ function addCredentialModal() {
 }
 
 function editCredentialModal(credentialId, url, username) {
+    console.log("edit credentialModal");
     const data = {
         _csrf : $('input[name ="_csrf"]').val(),
         resourceId : credentialId
@@ -133,13 +134,15 @@ $('#credentialModal')
 $('#save-credential').click(function () {
     const form = $('#credentials-form');
     const data = form.serializeArray();
+    console.log("data", data);
 
     let object = {};
     $.map(data, function(value, index) {
-            object[ data[index].name ] = data[index].value;
+            object[data[index].name] = data[index].value;
         }
     );
 
-    object._csrf = $('input[name ="_csrf"]').val()
+    object._csrf = $('input[name ="_csrf"]').val();
+    object.resourceId = object.credentialId;
     $('#credentialModal').trigger("credentials:add", [object, form.attr('action')]);
 });

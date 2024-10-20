@@ -62,6 +62,8 @@ const Repository = {
 
     edit : function (data, successCallback, failureCallback) {
 
+        console.log("data", data);
+
         $.ajax({
             url: `${this.endpoint}/${data.resourceId}`,
             type: 'put',

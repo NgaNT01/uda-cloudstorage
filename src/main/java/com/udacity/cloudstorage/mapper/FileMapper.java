@@ -8,23 +8,23 @@ import com.udacity.cloudstorage.domain.File;
 public interface FileMapper {
 
     @Delete("DELETE FROM FILES WHERE id = #{id} AND userid = #{userId}")
-    void delete(File file);
+    void removeFile(File file);
 
     @Select("SELECT id, name, content_type, size, data, userid FROM FILES WHERE id = #{id} AND userid = #{userId}")
     @Results({
-        @Result(property = "contentType", column = "content_type")
+            @Result(property = "contentType", column = "content_type")
     })
-    File get(File file);
+    File getFile(File file);
 
     @Select("SELECT id, name FROM FILES WHERE userid = #{userId} AND name = #{name}")
-    File find(File file);
+    File findByName(File file);
 
-    @Select("SELECT id, name FROM FILES WHERE userid = #{UID} ORDER BY id DESC")
-    List<File> allFrom(String UID);
+    @Select("SELECT id, name FROM FILES WHERE userid = #{userId} ORDER BY id DESC")
+    List<File> getAllFilesByUserId(String userId);
 
     @Insert("INSERT INTO FILES (id, name, content_type, size, data, userid) " +
-                        "VALUES(#{id}, #{name}, #{contentType}, #{size}, #{data}, #{userId})")
+            "VALUES(#{id}, #{name}, #{contentType}, #{size}, #{data}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int insert(File file);
+    int addFile(File file);
 
 }

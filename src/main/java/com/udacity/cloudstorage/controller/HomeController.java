@@ -3,11 +3,11 @@ package com.udacity.cloudstorage.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import com.udacity.cloudstorage.services.FileService;
-import com.udacity.cloudstorage.services.UserService;
-import com.udacity.cloudstorage.services.NoteService;
+import com.udacity.cloudstorage.services.FileStorageService;
+import com.udacity.cloudstorage.services.UserManagementService;
+import com.udacity.cloudstorage.services.NoteManagementService;
 import org.springframework.security.core.Authentication;
-import com.udacity.cloudstorage.services.CredentialService;
+import com.udacity.cloudstorage.services.CredentialManagementService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,29 +16,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @Autowired
-    private UserService users;
+    private UserManagementService users;
 
     @Autowired
-    private NoteService notes;
+    private NoteManagementService notes;
 
     @Autowired
-    private FileService files;
+    private FileStorageService files;
 
     @Autowired
-    private CredentialService credentials;
+    private CredentialManagementService credentials;
 
     @GetMapping()
     public String homeView(Authentication authentication, Model model) {
 
         try {
-            var UID = users.getUser(
+            var UID = users.retrieveUser(
                 authentication.getName()
             ).getUserId()
              .toString();
 
-            model.addAttribute("notes", notes.allBy(UID));
-            model.addAttribute("files", files.allBy(UID));
-            model.addAttribute("credentials", credentials.allBy(UID));
+            model.addAttribute("notes", notes.getAllNotesByUserId(UID));
+            model.addAttribute("files", files.getAllFilesForUser(UID));
+            model.addAttribute("credentials", credentials.getAllCredentialsByUserId(UID));
 
         } catch (Exception ignored) {
             return "redirect:/logout-success";

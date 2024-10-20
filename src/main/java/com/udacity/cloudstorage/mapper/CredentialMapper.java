@@ -8,19 +8,19 @@ import com.udacity.cloudstorage.domain.Credential;
 public interface CredentialMapper {
 
     @Delete("DELETE FROM CREDENTIALS WHERE id = #{id} AND userid = #{userId}")
-    void delete(Credential credential);
+    void removeCredential(Credential credential);
 
-    @Select("SELECT id, url, password, username, userid FROM CREDENTIALS WHERE userid = #{UID} ORDER BY id DESC")
-    List<Credential> allFrom(String UID);
+    @Select("SELECT id, url, password, username, userid FROM CREDENTIALS WHERE userid = #{userId} ORDER BY id DESC")
+    List<Credential> findAllByUserId(String userId);
 
     @Select("SELECT id, key, url, password, username, userid FROM CREDENTIALS WHERE id = #{id} AND userid = #{userId}")
-    Credential find(Credential credential);
+    Credential getCredential(Credential credential);
 
     @Update("UPDATE CREDENTIALS SET url=#{url}, username=#{username}, password=#{password} WHERE id =#{id}")
-    void update(Credential credential);
+    void updateCredential(Credential credential);
 
     @Insert("INSERT INTO CREDENTIALS (id, url, key, username, password, userid) VALUES(#{id}, #{url}, #{key}, #{username}, #{password}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int insert(Credential credential);
+    int addCredential(Credential credential);
 
 }

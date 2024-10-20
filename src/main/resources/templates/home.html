@@ -88,7 +88,7 @@
                                                 th:onclick="showNoteModal([[${note.id}]], [[${note.title}]], [[${note.description}]] )"
                                                 class="btn btn-success">Edit
                                             </button>
-                                            <a class="btn btn-danger" th:onclick="deleteNote( [[${note.id}]] )">Delete</a>
+                                            <a class="btn btn-danger" th:onclick="deleteNote([[${note.id}]])">Delete</a>
                                         </td>
                                         <th scope="row"><span th:text="${note.title}">Title</span></th>
                                         <td><span th:text="${note.description}">Note</span></td>
